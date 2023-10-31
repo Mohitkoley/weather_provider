@@ -25,13 +25,13 @@ class ThemeViewModel extends ChangeNotifier {
       appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
-          titleTextStyle: TextStyle(color: Colors.white)),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20)),
       drawerTheme:
           const DrawerThemeData(backgroundColor: Colors.black, width: 250),
       textTheme: const TextTheme(
-        bodySmall: TextStyle(fontSize: 12, color: Colors.white),
-        bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
-        bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
+        bodySmall: TextStyle(fontSize: 20, color: Colors.white),
+        bodyMedium: TextStyle(fontSize: 25, color: Colors.white),
+        bodyLarge: TextStyle(fontSize: 30, color: Colors.white),
       ));
 
   final ThemeData _lightTheme = ThemeData.light().copyWith(
@@ -43,13 +43,13 @@ class ThemeViewModel extends ChangeNotifier {
     appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        titleTextStyle: TextStyle(color: Colors.white)),
+        titleTextStyle: TextStyle(color: Colors.black, fontSize: 20)),
     drawerTheme:
         const DrawerThemeData(backgroundColor: Colors.white, width: 250),
     textTheme: const TextTheme(
-      bodySmall: TextStyle(fontSize: 12, color: Colors.black),
-      bodyMedium: TextStyle(fontSize: 14, color: Colors.black),
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.black),
+      bodySmall: TextStyle(fontSize: 20, color: Colors.black),
+      bodyMedium: TextStyle(fontSize: 25, color: Colors.black),
+      bodyLarge: TextStyle(fontSize: 30, color: Colors.black),
     ),
   );
 

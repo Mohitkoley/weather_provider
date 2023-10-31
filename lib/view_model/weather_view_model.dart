@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/data/response/api_response.dart';
 import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/repositories/weather_repository.dart';
@@ -14,9 +12,10 @@ class WeatherViewModel extends ChangeNotifier {
     "lat": AppConstants.lat,
     'lon': AppConstants.lon,
     'lang': AppConstants.lang,
+    'units': AppConstants.units,
   };
 
-  SharedPreferenceService _sharedPreferenceService = SharedPreferenceService();
+  SharedPreferenceService _sp = SharedPreferenceService();
 
   ApiResponse<WeatherModel> _response = ApiResponse.loading();
 
@@ -32,8 +31,7 @@ class WeatherViewModel extends ChangeNotifier {
     await _repo.getWeather(params).then((value) {
       log(value.toString());
       WeatherModel model = WeatherModel.fromJson(value);
-      _sharedPreferenceService.saveString(
-          AppConstants.weatherData, weatherModelToJson(model));
+      _sp.saveString(AppConstants.weatherData, weatherModelToJson(model));
       setStatus(ApiResponse.completed(model));
     }).catchError((e) {
       setStatus(ApiResponse.error(e.toString()));
@@ -46,10 +44,11 @@ class WeatherViewModel extends ChangeNotifier {
 
   localOrApiData(BuildContext context) async {
     setStatus(ApiResponse.loading());
-    String? data =
-        await _sharedPreferenceService.getString(AppConstants.weatherData);
+    String? data = await _sp.getString(AppConstants.weatherData);
     if (data == null) {
-      await getWeather(context);
+      if (context.mounted) {
+        await getWeather(context);
+      }
     } else {
       WeatherModel model = weatherModelFromJson(data);
       setStatus(ApiResponse.completed(model));

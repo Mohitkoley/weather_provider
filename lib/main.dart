@@ -9,6 +9,7 @@ import 'package:weather_app/view/screens/home_screen.dart';
 import 'package:weather_app/view/screens/weather_screen.dart';
 import 'package:weather_app/view_model/Theme/theme_view_model.dart';
 import 'package:weather_app/view_model/weather_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -39,15 +40,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeViewModel>(builder: (context, theme, _) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Weather App',
-        theme: theme.themeData,
-        // theme: ThemeData.light(),
-        initialRoute: RouteNames.homeScreen,
-        onGenerateRoute: GeneratedRoutes.generateRoute,
-      );
-    });
+    return ChangeNotifierProvider(
+      create: (_) => ThemeViewModel(),
+      child: Consumer<ThemeViewModel>(builder: (context, theme, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Weather App',
+          theme: theme.themeData,
+          // theme: ThemeData.light(),
+          initialRoute: RouteNames.homeScreen,
+          onGenerateRoute: GeneratedRoutes.generateRoute,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+        );
+      }),
+    );
   }
 }
