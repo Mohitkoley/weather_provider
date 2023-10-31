@@ -32,9 +32,6 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
-    - name: Get dependencies
-      run: flutter pub get
-
     - name: Build APK
       run: 
         # Access the API key from the secret
