@@ -1,6 +1,6 @@
 # weather_app
 
-A new Flutter project.
+A weaher app using provider and mvvm
 
 ## Getting Started
 
