@@ -20,14 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(milliseconds: 700), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MultiProvider(providers: [
-            ChangeNotifierProvider(create: (_) => ThemeViewModel()),
-          ], child: const WeatherScreen()),
-        ),
-      );
+      Navigator.pushReplacementNamed(context, RouteNames.weatherScreen);
     });
   }
 
