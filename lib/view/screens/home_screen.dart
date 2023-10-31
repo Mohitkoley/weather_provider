@@ -34,8 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
           image: const AssetImage(
             "assets/images/weather.png",
           ),
-          placeholder: const NetworkImage(
-              "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"),
+          placeholder: const AssetImage(
+            "assets/images/weather.png",
+          ),
         ),
       ),
     );

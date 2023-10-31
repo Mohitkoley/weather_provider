@@ -2,5 +2,10 @@
     "@@locale": "hi",
     "weather": "मौसम",
     "weather_application": "मौसम एप्लिकेशन",
-    "current": "वर्तमान"
+    "weather_app": "मौसम एप्",
+    "current": "वर्तमान",
+    "feels_like": "ऐसा लगता है ",
+    "language": "हिंदी",
+    "dark_mode": "डार्क मोड",
+    "light_mode": "लाइट मोड"
 }

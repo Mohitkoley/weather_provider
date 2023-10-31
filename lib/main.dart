@@ -43,13 +43,15 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeViewModel>(builder: (context, theme, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Weather App',
+          onGenerateTitle: (BuildContext context) =>
+              AppLocalizations.of(context)!.weather_app,
           theme: theme.themeData,
           // theme: ThemeData.light(),
-          initialRoute: RouteNames.homeScreen,
+          initialRoute: RouteNames.weatherScreen,
           onGenerateRoute: GeneratedRoutes.generateRoute,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          locale: theme.locale,
         );
       }),
     );

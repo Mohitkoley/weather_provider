@@ -14,6 +14,9 @@ class AppConstants {
   //theme bool
   static const String isDarkMode = "isDarkMode";
 
+  //localization
+  static const String locale = "locale";
+
   //weather data
   static const String weatherData = "weatherData";
 }

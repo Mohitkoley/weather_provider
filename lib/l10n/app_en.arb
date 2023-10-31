@@ -2,5 +2,10 @@
     "@@locale": "en",
     "weather": "Weather",
     "weather_application": "Weather Application",
-    "current": "Current"
+    "weather_app": "Weather App",
+    "current": "Current",
+    "feels_like": "Feels like ",
+    "language": "english",
+    "dark_mode": "Dark Mode",
+    "light_mode": "Light Mode"
 }

@@ -21,6 +21,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<WeatherViewModel>().localOrApiData(context);
+      context.read<ThemeViewModel>().initSharedPref();
     });
   }
 
@@ -28,38 +29,92 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Weather",
+        title: Text(
+          AppLocalizations.of(context)!.weather,
         ),
         centerTitle: true,
       ),
-      drawer: ChangeNotifierProvider(
-        create: (_) => ThemeViewModel(),
-        child: Consumer<ThemeViewModel>(builder: (context, themeViewModel, _) {
-          return Drawer(
-            child: ListView(
-              padding: const EdgeInsets.all(0),
-              children: [
-                DrawerHeader(
-                  child: Text("Weather Application", style: context.bodyMedium),
+      drawer: Consumer<ThemeViewModel>(builder: (context, themeViewModel, _) {
+        return Drawer(
+          width: context.w * 0.8,
+          child: ListView(
+            padding: const EdgeInsets.all(0),
+            children: [
+              DrawerHeader(
+                child: Text(AppLocalizations.of(context)!.weather_application,
+                    style: context.bodyMedium),
+              ),
+              SwitchListTile.adaptive(
+                value: themeViewModel.isDark,
+                onChanged: themeViewModel.toggleTheme,
+                title: Text(
+                    themeViewModel.isDark
+                        ? AppLocalizations.of(context)!.dark_mode
+                        : AppLocalizations.of(context)!.light_mode,
+                    style: context.bodySmall),
+              ),
+              Container(
+                //color: Colors.indigo,
+                height: context.h * 0.08,
+                margin: const EdgeInsets.only(top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        themeViewModel.changeLocale(context, "en");
+                      },
+                      child: Container(
+                        width: context.w * 0.25,
+                        decoration: BoxDecoration(
+                          color: themeViewModel.isDark
+                              ? Colors.deepPurple.withOpacity(0.4)
+                              : Colors.grey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "ENGLISH",
+                          style: context.bodySmall.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        themeViewModel.changeLocale(context, "hi");
+                      },
+                      child: Container(
+                        width: context.w * 0.25,
+                        decoration: BoxDecoration(
+                          color: themeViewModel.isDark
+                              ? Colors.deepPurple.withOpacity(0.4)
+                              : Colors.grey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "हिंदी",
+                          style: context.bodySmall.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SwitchListTile.adaptive(
-                  value: themeViewModel.isDark,
-                  onChanged: themeViewModel.toggleTheme,
-                  title: Text(
-                      themeViewModel.isDark ? "Dark Mode" : "Light Mode",
-                      style: context.bodySmall),
-                )
-              ],
-            ),
-          );
-        }),
-      ),
-      body: Consumer<WeatherViewModel>(builder: (context, weatherViewModel, _) {
+              ),
+            ],
+          ),
+        );
+      }),
+      body: Consumer2<WeatherViewModel, ThemeViewModel>(
+          builder: (context, weatherViewModel, theme, _) {
         switch (weatherViewModel.response.status) {
           case Status.loading:
             return const Center(
-              child: const CircularProgressIndicator(),
+              child: CircularProgressIndicator(),
             );
           case Status.error:
             return const ErrorScreen(errorText: "Something went wrong");
@@ -72,6 +127,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 children: [
                   Container(
                     width: context.w,
+                    height: context.h * 0.2,
+                    // color: Colors.grey,
                     margin: const EdgeInsets.all(10),
                     alignment: Alignment.center,
                     child: Column(
@@ -92,9 +149,71 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               fontStyle: FontStyle.italic),
                           textAlign: TextAlign.center,
                         ),
+                        SizedBox(
+                          height: context.h * 0.02,
+                        ),
+                        Text(
+                          weatherModel.timezone,
+                          style: context.bodyMedium
+                              .copyWith(fontStyle: FontStyle.italic),
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   ),
+                  Expanded(
+                      child: RefreshIndicator(
+                    onRefresh: () {
+                      return weatherViewModel.refresh(context);
+                    },
+                    child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: theme.isDark
+                                    ? Colors.purple.withOpacity(0.3)
+                                    : Colors.grey[300],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Text(
+                                //   "Feels like ${weatherModel.hourly[index].feelsLike}",
+                                //   style: context.bodySmall,
+                                // ),
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(
+                                      text: AppLocalizations.of(context)!
+                                          .feels_like,
+                                      style: context.bodySmall.copyWith(
+                                        fontSize: 14,
+                                      )),
+                                  TextSpan(
+                                      text:
+                                          "${weatherModel.hourly[index].feelsLike} °C",
+                                      style: context.bodySmall.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic))
+                                ])),
+                                Text(
+                                  "${weatherModel.hourly[index].temp} °C",
+                                  style: context.bodyMedium.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            height: context.h * 0.02,
+                          );
+                        },
+                        itemCount: weatherModel.hourly.length),
+                  )),
                 ],
               ),
             );

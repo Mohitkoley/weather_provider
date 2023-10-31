@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/services/shared_prefrenced/shared_prefrence_service.dart';
 import 'package:weather_app/shared/app_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeViewModel extends ChangeNotifier {
   bool _isDark = false;
@@ -12,8 +13,8 @@ class ThemeViewModel extends ChangeNotifier {
 
   void toggleTheme(bool value) {
     _isDark = value;
-    SharedPreferenceService().saveBool(AppConstants.isDarkMode, _isDark);
     notifyListeners();
+    SharedPreferenceService().saveBool(AppConstants.isDarkMode, _isDark);
   }
 
   final ThemeData _darkTheme = ThemeData.dark().copyWith(
@@ -53,17 +54,33 @@ class ThemeViewModel extends ChangeNotifier {
     ),
   );
 
-  initSharedPrefBool() async {
+  initSharedPref() async {
     _isDark = await SharedPreferenceService().getBool(AppConstants.isDarkMode);
+    String? locale =
+        await SharedPreferenceService().getString(AppConstants.locale);
+    if (locale != null) {
+      _locale = Locale(locale);
+    }
     notifyListeners();
   }
 
   ThemeData get themeData {
-    initSharedPrefBool();
+    initSharedPref();
     if (_isDark) {
       return _darkTheme;
     } else {
       return _lightTheme;
     }
+  }
+
+  Locale _locale = const Locale('en');
+
+  Locale get locale => _locale;
+
+  void changeLocale(BuildContext context, String newLocale) {
+    if (!AppLocalizations.supportedLocales.contains(locale)) return;
+    _locale = Locale(newLocale);
+    notifyListeners();
+    SharedPreferenceService().saveString(AppConstants.locale, newLocale);
   }
 }
