@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/services/shared_prefrenced/shared_prefrence_service.dart';
-import 'package:weather_app/shared/app_constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather_app/services/shared_preference/shared_preference_service.dart';
+import 'package:weather_app/utils/export.dart';
 
 class ThemeViewModel extends ChangeNotifier {
   bool _isDark = false;

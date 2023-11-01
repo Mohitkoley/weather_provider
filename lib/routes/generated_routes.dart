@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/routes/route_names.dart';
-import 'package:weather_app/view/screens/home_screen.dart';
 import 'package:weather_app/view/screens/weather_screen.dart';
 
 class GeneratedRoutes {

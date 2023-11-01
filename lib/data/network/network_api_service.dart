@@ -33,12 +33,9 @@ class NetworkApiService extends BaseApiServices {
           ),
           headers: {
             "Accept": "application/json",
-            "Access-Control-Allow-Credentials": "true",
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers":
-                "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-            "Access-Control-Allow-Methods": "POST, OPTIONS,GET, HEAD,PUT",
-            "content-type": "application/json"
+            'Access-Control-Allow-Headers': 'Content-Type',
+            "content-type": "application/json",
           }).timeout(
         const Duration(seconds: 60),
       );

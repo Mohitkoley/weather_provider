@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_app/shared/app_constants.dart';
 
@@ -15,7 +17,7 @@ class ApiKey {
     try {
       await dotenv.load(fileName: ".env");
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
     key = dotenv.env['APP_ID'] ?? '';
     AppConstants.setAppId(key);

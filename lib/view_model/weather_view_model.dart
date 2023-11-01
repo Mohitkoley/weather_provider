@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/data/response/api_response.dart';
 import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/repositories/weather_repository.dart';
-import 'package:weather_app/services/shared_prefrenced/shared_prefrence_service.dart';
+import 'package:weather_app/services/shared_preference/shared_preference_service.dart';
 import 'package:weather_app/shared/app_constants.dart';
+import 'package:weather_app/utils/enums.dart';
+import 'package:weather_app/utils/utils.dart';
 
 class WeatherViewModel extends ChangeNotifier {
   final WeatherRepository _repo = WeatherRepository();
@@ -35,6 +37,8 @@ class WeatherViewModel extends ChangeNotifier {
       setStatus(ApiResponse.completed(model));
     }).catchError((e) {
       setStatus(ApiResponse.error(e.toString()));
+      context.snowSnackBar(e.toString(),
+          type: SnackBarTypeEnum.error, milliseconds: 2000);
     });
   }
 

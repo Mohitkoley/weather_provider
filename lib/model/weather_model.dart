@@ -71,7 +71,7 @@ class Current {
   int windDeg;
   List<Weather> weather;
   double? windGust;
-  int? pop;
+  double? pop;
 
   Current({
     required this.dt,
@@ -109,7 +109,7 @@ class Current {
         weather:
             List<Weather>.from(json["weather"].map((x) => Weather.fromJson(x))),
         windGust: json["wind_gust"]?.toDouble(),
-        pop: json["pop"],
+        pop: json["pop"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

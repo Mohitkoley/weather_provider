@@ -3,10 +3,11 @@ import 'package:weather_app/utils/enums.dart';
 
 extension ContextUtil on BuildContext {
   void snowSnackBar(String message,
-      {SnackBarTypeEnum type = SnackBarTypeEnum.error}) async {
+      {SnackBarTypeEnum type = SnackBarTypeEnum.error,
+      int milliseconds = 500}) async {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: milliseconds),
         content: Text(message),
         backgroundColor: type.color,
         behavior: SnackBarBehavior.floating,

@@ -14,13 +14,6 @@ Future<void> main() async {
   await ApiKey().loadApiKey();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-    return Scaffold(
-      body: ErrorScreen(
-        errorText: errorDetails.exceptionAsString(),
-      ),
-    );
-  };
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => WeatherViewModel()),
@@ -38,22 +31,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeViewModel(),
-      child: Consumer<ThemeViewModel>(builder: (context, theme, _) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          onGenerateTitle: (BuildContext context) =>
-              AppLocalizations.of(context)!.weather_app,
-          theme: theme.themeData,
-          // theme: ThemeData.light(),
-          initialRoute: RouteNames.weatherScreen,
-          onGenerateRoute: GeneratedRoutes.generateRoute,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: theme.locale,
-        );
-      }),
-    );
+    return Consumer<ThemeViewModel>(builder: (context, theme, _) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateTitle: (BuildContext context) =>
+            AppLocalizations.of(context)!.weather_app,
+        theme: theme.themeData,
+        // theme: ThemeData.light(),
+        initialRoute: RouteNames.weatherScreen,
+        onGenerateRoute: GeneratedRoutes.generateRoute,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: theme.locale,
+      );
+    });
   }
 }
