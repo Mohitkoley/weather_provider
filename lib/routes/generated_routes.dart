@@ -10,10 +10,6 @@ class GeneratedRoutes {
         return MaterialPageRoute(
           builder: (_) => const WeatherScreen(),
         );
-      case RouteNames.homeScreen:
-        return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
-        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
