@@ -38,11 +38,19 @@ jobs:
     # - name: Load Environment Variables
     #   run: flutter pub run dotenv:generate
 
+    #increment the version code with each build
+    - name: Increment Version Code
+      run: flutter pub run version
+
     - name: Build APK
       run: 
         # Access the API key from the secret
-        APP_ID=$APP_ID
         flutter build apk
 
-    - name: Run Tests
-      run: flutter test
+      #upload apk to artifacts with the name weather_app.apk with each iteration inceament the version code
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: weather_app.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
