@@ -2,12 +2,16 @@ name: Flutter CI
 
 on:
   push:
+    tags:
+      - 'weather_app'
     branches:
       - main
 
 jobs:
   build:
     name: Build and Upload to release
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
