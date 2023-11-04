@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test
+    name: Build and Upload to release
     runs-on: ubuntu-latest
 
     steps:
@@ -49,4 +49,16 @@ jobs:
       with:
         name: weather_app.apk
         path: build/app/outputs/flutter-apk/app-release.apk
+
+      #upload apk to github release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: true
 
