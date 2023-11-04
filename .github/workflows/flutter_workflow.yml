@@ -20,6 +20,9 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
 
+    - name: Create .env File
+      run: echo "APP_ID=ef660537451d3936b4c2beaa9b1915a9" > .env
+
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -31,6 +34,9 @@ jobs:
 
     - name: Install dependencies
       run: flutter pub get
+
+    - name: Load Environment Variables
+      run: flutter pub run dotenv:generate
 
     - name: Build APK
       run: 
