@@ -50,15 +50,22 @@ jobs:
         name: weather_app.apk
         path: build/app/outputs/flutter-apk/app-release.apk
 
-      #upload apk to github release
+      #upload apk to github release and add paramenter token
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        artifacts: weather_app.apk
+        token: ${{ secrets.GIT_TOKEN }}
+        tag: ${{ github.ref }}
+        body: |
+          Release ${{ github.ref }}
+          - Build ${{ github.run_number }}
+          - Commit ${{ github.sha }}
+          - Branch ${{ github.ref }}
+          - Author ${{ github.actor }}```
+        name: ${{ github.ref }}
+        prerelease: false
         draft: false
-        prerelease: true
+
+        
 
