@@ -38,10 +38,6 @@ jobs:
     # - name: Load Environment Variables
     #   run: flutter pub run dotenv:generate
 
-    #increment the version code with each build
-    - name: Increment Version Code
-      run: flutter pub run version
-
     - name: Build APK
       run: 
         # Access the API key from the secret
