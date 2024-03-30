@@ -1,18 +1,17 @@
-name: Flutter CI
+name: Build and upload APK
 
 on:
   push:
-    tags:
-      - 'weather_app'
     branches:
       - main
+
 
 jobs:
   build:
     name: Build and Upload to release
     permissions:
       contents: write
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -30,7 +29,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.13.6'
+        flutter-version: '3.19.3'
         channel: 'stable'
 
     - name: verify flutter version
@@ -44,32 +43,15 @@ jobs:
 
     - name: Build APK
       run: 
-        # Access the API key from the secret
-        flutter build apk
+        flutter build apk --release --split-per-abi
 
       #upload apk to artifacts with the name weather_app.apk with each iteration inceament the version code
-    - name: Upload APK
-      uses: actions/upload-artifact@v2
-      with:
-        name: weather_app.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
-      #upload apk to github release and add paramenter token
-    - name: Create Release
+    - name: Push to Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: weather_app.apk
+        artifacts: "build/app/outputs/apk/release/*"
+        tag: v0.0.1
         token: ${{ secrets.GIT_TOKEN }}
-        tag: ${{ github.ref }}
-        body: |
-          Release ${{ github.ref }}
-          - Build ${{ github.run_number }}
-          - Commit ${{ github.sha }}
-          - Branch ${{ github.ref }}
-          - Author ${{ github.actor }}```
-        name: ${{ github.ref }}
-        prerelease: false
-        draft: false
 
 
 
