@@ -53,7 +53,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
-          tag: ${{ github.ref }}
+          tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.GIT_TOKEN }}
           body: |
             Release ${{ github.ref }}
