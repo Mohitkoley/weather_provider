@@ -60,7 +60,7 @@ jobs:
             - Commit ${{ github.sha }}
             - Branch ${{ github.ref }}
             - Author ${{ github.actor }}```
-          name: ${{ github.ref }}
+          name: v1.0.${{ github.run_number }}
           prerelease: false
           draft: false
 
