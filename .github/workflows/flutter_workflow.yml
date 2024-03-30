@@ -38,17 +38,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: 
-          flutter build apk --release --split-per-abi
+      - name: print .env file
+        run: cat .env
 
-        #upload apk to artifacts with the name weather_app.apk with each iteration inceament the version code
-      - name: Push to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/apk/release/*"
-          tag: v0.0.1${{github.run_number}}
-          token: ${{ secrets.GIT_TOKEN}}
 
 
 
