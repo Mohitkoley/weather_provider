@@ -4,7 +4,6 @@ import 'package:weather_app/env/api_key.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/routes/generated_routes.dart';
 import 'package:weather_app/routes/route_names.dart';
-import 'package:weather_app/shared/widgets/error_screen.dart';
 import 'package:weather_app/view_model/theme/theme_view_model.dart';
 import 'package:weather_app/view_model/weather_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

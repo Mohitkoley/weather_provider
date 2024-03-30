@@ -19,7 +19,7 @@ class ApiKey {
     } catch (e) {
       log(e.toString());
     }
-    key = dotenv.env['APP_ID'] ?? '';
+    key = dotenv.env['API_KEY'] ?? '';
     AppConstants.setAppId(key);
   }
 }
