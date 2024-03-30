@@ -14,44 +14,41 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup Java
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '11'
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '12'
 
-    - name: Create .env File
-      run: echo "APP_ID=${{ secrets.APP_ID }}" > .env
+      - name: Create .env File
+        run: echo "APP_ID=${{ secrets.APP_ID }}" > .env
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.19.3'
-        channel: 'stable'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.3'
+          channel: 'stable'
 
-    - name: verify flutter version
-      run: flutter --version
+      - name: verify flutter version
+        run: flutter --version
 
-    - name: Install dependencies
-      run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-    # - name: Load Environment Variables
-    #   run: flutter pub run dotenv:generate
+      - name: Build APK
+        run: 
+          flutter build apk --release --split-per-abi
 
-    - name: Build APK
-      run: 
-        flutter build apk --release --split-per-abi
-
-      #upload apk to artifacts with the name weather_app.apk with each iteration inceament the version code
-    - name: Push to Releases
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/apk/release/*"
-        tag: v0.0.1
-        token: ${{ secrets.GIT_TOKEN }}
+        #upload apk to artifacts with the name weather_app.apk with each iteration inceament the version code
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*"
+          tag: v0.0.1${{github.run_number}}
+          token: ${{ secrets.GIT_TOKEN}}
 
 
 
